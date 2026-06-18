@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наша История Любви ❤️</title>
+    <style>
+        :root {
+            --bg-color: #fff5f6;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(255, 182, 193, 0.4);
+            --text-main: #4a282c;
+            --accent-color: #ff4d6d;
+            --accent-hover: #ff758f;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#ffb6c1 0.5px, transparent 0.5px), radial-gradient(#ffb6c1 0.5px, #fff5f6 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 15px;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Окно авторизации (Блокировка сайта) */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 245, 246, 0.98);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            transition: opacity 0.5s ease;
+        }
+
+        .login-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
+        }
+
+        .login-box h2 { margin-top: 0; margin-bottom: 20px; font-weight: 600; color: var(--accent-color); }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            background: #fff0f2;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-main);
+            box-sizing: border-box;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .login-box input:focus { border-color: var(--accent-color); }
+
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .login-box button:hover { background: var(--accent-hover); }
+        .login-box button:active { transform: scale(0.98); }
+
+        /* Главный контейнер (скрыт до ввода верного пароля) */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        header {
+            text-align: center;
+            margin: 40px 0;
+            padding: 10px;
+        }
+
+        header h1 {
+            font-size: 2.3rem;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        header p { color: #a07176; margin: 0; font-style: italic; }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin: 40px 0 20px 0;
+            text-align: center;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* ЛЕНТА ВИДЕО (Вертикальный формат под мобильные) */
+        .video-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2);
+        }
+
+        .video-wrapper {
+            position: relative;
+            background: #000;
+            aspect-ratio: 9/16; 
+        }
+
+        video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .card-info { padding: 15px 20px; text-align: center; font-weight: 500; }
+
+        /* СЕТКА ФОТОГРАФИЙ */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .photo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.15);
+            transition: transform 0.3s ease;
+        }
+        .photo-card:hover { transform: scale(1.02); }
+
+        .photo-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin: 60px 0 30px 0;
+            color: #a07176;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>❤️ Наше место</h2>
+            <input type="text" id="username" placeholder="Твое имя" required>
+            <input type="password" id="password" placeholder="Секретный пароль" required>
+            <button onclick="checkLogin()">Войти в архив</button>
+        </div>
+    </div>
+
+    <div class="container" id="main-site">
+        <header>
+            <h1>Ты — моё лучшее воспоминание</h1>
+            <p>Каждое мгновение, сохраненное здесь</p>
+        </header>
+
+        <div class="section-title">🎥 Наши Видеохроники (15)</div>
+        <div class="video-feed">
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid1.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 1</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid2.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 2</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid3.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 3</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid4.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 4</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid5.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 5</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid6.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 6</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid7.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 7</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid8.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 8</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid9.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 9</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid10.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 10</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid11.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 11</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid12.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 12</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid13.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 13</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid14.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 14</div></div>
+            <div class="video-card"><div class="video-wrapper"><video controls playsinline preload="metadata"><source src="vid15.mp4" type="video/mp4"></video></div><div class="card-info">❤️ Момент 15</div></div>
+        </div>
+
+        <div class="section-title">✨ Наша Фотогалерея (21)</div>
+        <div class="photo-grid">
+            <div class="photo-card"><img src="photo1.jpg" alt=""><div class="card-info">📸 Снимок 1</div></div>
+            <div class="photo-card"><img src="photo2.jpg" alt=""><div class="card-info">📸 Снимок 2</div></div>
+            <div class="photo-card"><img src="photo3.jpg" alt=""><div class="card-info">📸 Снимок 3</div></div>
+            <div class="photo-card"><img src="photo4.jpg" alt=""><div class="card-info">📸 Снимок 4</div></div>
+            <div class="photo-card"><img src="photo5.jpg" alt=""><div class="card-info">📸 Снимок 5</div></div>
+            <div class="photo-card"><img src="photo6.jpg" alt=""><div class="card-info">📸 Снимок 6</div></div>
+            <div class="photo-card"><img src="photo7.jpg" alt=""><div class="card-info">📸 Снимок 7</div></div>
+            <div class="photo-card"><img src="photo8.jpg" alt=""><div class="card-info">📸 Снимок 8</div></div>
+            <div class="photo-card"><img src="photo9.jpg" alt=""><div class="card-info">📸 Снимок 9</div></div>
+            <div class="photo-card"><img src="photo10.jpg" alt=""><div class="card-info">📸 Снимок 10</div></div>
+            <div class="photo-card"><img src="photo11.jpg" alt=""><div class="card-info">📸 Снимок 11</div></div>
+            <div class="photo-card"><img src="photo12.jpg" alt=""><div class="card-info">📸 Снимок 12</div></div>
+            <div class="photo-card"><img src="photo13.jpg" alt=""><div class="card-info">📸 Снимок 13</div></div>
+            <div class="photo-card"><img src="photo14.jpg" alt=""><div class="card-info">📸 Снимок 14</div></div>
+            <div class="photo-card"><img src="photo15.jpg" alt=""><div class="card-info">📸 Снимок 15</div></div>
+            <div class="photo-card"><img src="photo16.jpg" alt=""><div class="card-info">📸 Снимок 16</div></div>
+            <div class="photo-card"><img src="photo17.jpg" alt=""><div class="card-info">📸 Снимок 17</div></div>
+            <div class="photo-card"><img src="photo18.jpg" alt=""><div class="card-info">📸 Снимок 18</div></div>
+            <div class="photo-card"><img src="photo19.jpg" alt=""><div class="card-info">📸 Снимок 19</div></div>
+            <div class="photo-card"><img src="photo20.jpg" alt=""><div class="card-info">📸 Снимок 20</div></div>
+            <div class="photo-card"><img src="photo21.jpg" alt=""><div class="card-info">📸 Снимок 21</div></div>
+        </div>
+
+        <footer>
+            Бесконечно люблю... ❤️
+        </footer>
+    </div>
+
+    <script>
+        // Твой секретный пароль для входа на сайт
+        const SECRET_PASSWORD = "1103200930062009"; 
+
+        function checkLogin() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+
+            // Проверяем имя на пустоту, а пароль на точное совпадение
+            if (user !== "" && pass === SECRET_PASSWORD) { 
+                // Скрываем форму входа с анимацией размытия
+                document.getElementById('login-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    const mainSite = document.getElementById('main-site');
+                    mainSite.style.opacity = '1';
+                    mainSite.style.pointerEvents = 'auto';
+                }, 500);
+            } else if (user === "") {
+                alert("Пожалуйста, введи своё имя! ✨");
+            } else {
+                alert("Неверный секретный пароль! Доступ закрыт... 💔");
+                document.getElementById('password').value = ""; // Очищаем поле
+            }
+        }
+
+        // Позволяет заходить на сайт нажатием кнопки Enter на клавиатуре
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkLogin();
+            }
+        });
+    </script>
+</body>
+</html>
